@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Envanter Yönetim Sistemi (Etkileşimli Frontend)</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+    <header>
+        <h1>✨ Envanter Yönetim Sistemi (Simülasyon) ✨</h1>
+        <p>Tasarım Desenleri ile Geliştirilmiştir (6 Desen Entegre)</p>
+    </header>
+
+    <div class="container">
+        
+        <aside class="menu">
+            <h2>⚙️ İşlem Menüsü (Frontend)</h2>
+            <p class="explanation">Bu arayüz, Backend (Java Console) işlemlerini simüle eder ve çıktıları listeler.</p>
+            <div id="backend-output">
+                <p class="info-message">Sistem Hazır. Bir işlem seçiniz.</p>
+            </div>
+            
+            <button onclick="handleMenu(1, 'Yeni Kategori Ekle')">1. Yeni Kategori Ekle</button>
+            <button onclick="handleMenu(2, 'Yeni Ürün Ekle (Builder)')">2. Yeni Ürün Ekle (Builder)</button>
+            <button onclick="handleMenu(3, 'Ürün/Stok/Fiyat Güncelle')">3. Ürün/Stok/Fiyat Güncelle</button>
+            <button onclick="handleMenu(4, 'Tüm Kataloğu Görüntüle')">4. Tüm Kataloğu Görüntüle</button>
+            <button onclick="handleMenu(5, 'Fiyatlandırma Stratejisi Değiştir')">5. Fiyatlandırma Stratejisi Değiştir (Strategy)</button>
+            <button onclick="handleMenu(6, 'Düşük Stok Eşiği Güncelle')">6. Düşük Stok Eşiği Güncelle (Singleton)</button>
+            <button onclick="handleMenu(7, 'Ürün Sil')">7. Ürün Sil</button>
+            <button onclick="handleMenu(8, 'Kategori Sil')">8. Kategori Sil</button>
+            <button onclick="handleMenu(9, 'Çıkış')">9. Çıkış</button>
+        </aside>
+
+        <main class="catalog">
+            <h2>📦 Ürün Kataloğu (Simülasyon Verisi)</h2>
+            <p class="last-update">Son Etkileşim: <span id="update-time">Yükleniyor...</span></p>
+
+            <div id="category-tree">
+                <section class="category">
+                    <h3 style="color:#007bff;">+ ELECTRONICS</h3>
+                    
+                    <div class="subcategory">
+                        <h4 style="color:#5aa5ff;">+ COMPUTERS</h4>
+                        <div class="sub-subcategory">
+                            <h5 style="color:#777;">+ LAPTOPS</h5>
+                            <ul class="product-list">
+                                <li class="product">
+                                    <strong>Gamer Pro X (i9/32GB)</strong> 
+                                    <span class="tag decorated">DECORATOR/DISCOUNT (20%)</span>
+                                    <span class="price">$1199.99</span>
+                                    <span class="stock low" data-stock="4">Stok: 4 (LOW)</span>
+                                </li>
+                                <li class="product">
+                                    <strong>Business Ultra</strong>
+                                    <span class="tag strategy">NORMAL PRICING</span>
+                                    <span class="price" data-price="999.99">$999.99</span>
+                                    <span class="stock" data-stock="8">Stok: 8</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="subcategory">
+                        <h4 style="color:#5aa5ff;">+ PHONES</h4>
+                        <ul class="product-list">
+                            <li class="product">
+                                <strong>Smartphone</strong>
+                                <span class="tag decorated">DECORATOR/INCREASE (10%)</span>
+                                <span class="price" data-price="879.99">$879.99</span>
+                                <span class="stock" data-stock="15">Stok: 15</span>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Tasarım Desenleri Projesi | 6 Desen Entegre Edildi.</p>
+    </footer>
+
+    <script>
+        const output = document.getElementById('backend-output');
+        const catalogTree = document.getElementById('category-tree');
+        let stockThreshold = 5; // Singleton simülasyonu için başlangıç eşiği
+
+        function updateTime() {
+            document.getElementById('update-time').innerText = new Date().toLocaleTimeString('tr-TR');
+        }
+
+        // Backend konsol çıktısını simüle eder
+        function log(message, type = 'info') {
+            const p = document.createElement('p');
+            p.className = `log-${type}`;
+            p.innerHTML = `${new Date().toLocaleTimeString()} &gt; ${message}`;
+            output.prepend(p); // En üste ekle
+        }
+
+        // Kataloğu simüle edilmiş bir veriye göre günceller
+        function simulateCatalogUpdate(newCatalogHTML) {
+            catalogTree.innerHTML = newCatalogHTML;
+            log('✅ Katalog Backend verisiyle güncellendi.', 'success');
+            updateTime();
+        }
+
+        // Ana işlem yöneticisi
+        function handleMenu(choice, actionName) {
+            log(`➡️ Seçilen İşlem: ${actionName}`, 'action');
+
+            if (choice === 9) {
+                log('Sistem kapatılıyor. Hoşça kalın! 👋', 'exit');
+                return;
+            }
+
+            switch(choice) {
+                case 1: // Yeni Kategori Ekle
+                case 7: // Ürün Sil
+                case 8: // Kategori Sil
+                    // Bu işlemler için karmaşık yol girişi simüle ediliyor
+                    const path = prompt(`[${actionName}] Lütfen kategori yolunu (ör: 1.1) girin:`);
+                    if (path) {
+                        log(`⚙️ Backend'e gönderilen yol: ${path}`, 'info');
+                    }
+                    break;
+                
+                case 2: // Yeni Ürün Ekle (Builder)
+                    const builderChoice = prompt('[Builder] 1: Basit Ürün (T-Shirt) / 2: Karmaşık Ürün (Laptop)');
+                    if (builderChoice === '2') {
+                         log('🔧 Builder, Karmaşık Ürünü oluşturuyor (Fiyat artışı dahil).', 'success');
+                    } else {
+                         log('🏭 Factory/Basit Ürün oluşturuldu.', 'success');
+                    }
+                    break;
+
+                case 3: // Ürün/Stok/Fiyat Güncelle (Decorator & Observer)
+                    const updateType = prompt('[Ürün Güncelleme] 1: Fiyat Güncelle / 2: %10 Zam (Decorator) / 3: %20 İndirim (Decorator) / 4: Stok Güncelle');
+                    if (updateType === '4') {
+                        const oldStock = parseInt(prompt('[Observer] Mevcut stok:'));
+                        const newStock = parseInt(prompt('[Observer] Yeni stok miktarını girin:'));
+                        if (newStock < oldStock) {
+                            log(`📋 STOK GÜNCELLEMESİ: ${oldStock} -> ${newStock}`, 'info');
+                            if (newStock <= stockThreshold) {
+                                log(`⚠️ DÜŞÜK STOK UYARISI: Stok eşik (${stockThreshold}) altına düştü!`, 'error');
+                            }
+                        }
+                    } else if (updateType === '2' || updateType === '3') {
+                        log(`🎁 Decorator (${updateType === '2' ? 'Zam' : 'İndirim'}) uygulandı. Fiyat yeniden hesaplanacak.`, 'success');
+                        // Gerçek Catalog'u hemen güncelle
+                        const oldPrice = parseFloat(catalogTree.querySelector('.price').getAttribute('data-price'));
+                        const newPrice = updateType === '2' ? oldPrice * 1.10 : oldPrice * 0.80;
+                        catalogTree.querySelector('.price').innerText = `$${newPrice.toFixed(2)}`;
+                    }
+                    break;
+
+                case 5: // Fiyatlandırma Stratejisi Değiştir (Strategy)
+                    const strategy = prompt('[Strategy] 1: Normal Fiyatlandırma / 2: Vergi Dahil Fiyatlandırma');
+                    if (strategy === '2') {
+                         log('🌐 Tüm ürünlere Vergi Dahil Fiyatlandırma stratejisi uygulandı.', 'success');
+                         // Fiyatları simüle et (Örn: Business Ultra'ya %18 KDV ekle)
+                         const buPriceElement = catalogTree.querySelector('li strong:contains("Business Ultra")').nextElementSibling.nextElementSibling;
+                         const basePrice = parseFloat(buPriceElement.getAttribute('data-price')) || 999.99;
+                         buPriceElement.innerText = `$${(basePrice * 1.18).toFixed(2)}`;
+                    }
+                    break;
+
+                case 6: // Düşük Stok Eşiği Güncelle (Singleton)
+                    const newThreshold = parseInt(prompt('[Singleton] Yeni düşük stok eşiğini (şu anki: ' + stockThreshold + ') girin:'));
+                    if (!isNaN(newThreshold)) {
+                        stockThreshold = newThreshold;
+                        log(`✅ Singleton güncellendi. Yeni eşik: ${stockThreshold}`, 'success');
+                    }
+                    break;
+
+                case 4: // Tüm Kataloğu Görüntüle
+                    // Java çıktısını simüle eden basit bir mesaj
+                    log('🖼️ Katalog çıktısı aşağıda güncellendi.', 'info');
+                    break;
+            }
+            updateTime();
+        }
+        
+        // Basit String arama polyfill'i (IE desteği için değil, sadece kısa JS için)
+        // Kaynak: https://stackoverflow.com/questions/8750808/how-to-use-queryselector-to-find-text-in-element-and-not-id-or-class-name
+        if (!String.prototype.includes) {
+            String.prototype.includes = function(search, start) {
+                'use strict';
+                if (typeof start !== 'number') {
+                    start = 0;
+                }
+                return this.indexOf(search, start) !== -1;
+            };
+        }
+        
+        // DOM içeriği arama fonksiyonu
+        (function (doc) {
+            'use strict';
+            Element.prototype.matches || (Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector);
+            Element.prototype.closest || (Element.prototype.closest = function (selector) {
+                var el = this;
+                while (el) {
+                    if (el.matches(selector)) {
+                        return el;
+                    }
+                    el = el.parentElement;
+                }
+                return null;
+            });
+            var _qs = function (el, selector) {
+                if (/:contains/.test(selector)) {
+                    var matches = el.querySelectorAll(selector.split(':')[0]),
+                        text = selector.match(/:contains\(['"](.+)['"]\)/)[1];
+                    for (var i = 0, len = matches.length; i < len; i++) {
+                        if (matches[i].textContent.includes(text)) {
+                            return matches[i];
+                        }
+                    }
+                    return null;
+                }
+                return el.querySelector(selector);
+            };
+            doc.querySelector = function (selector) {
+                return _qs(doc, selector);
+            };
+        })(document.body.constructor.prototype.constructor.prototype);
+
+        updateTime();
+    </script>
+    <style>
+        /* Sadece JavaScript logları için CSS */
+        #backend-output {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.85em;
+            color: #333;
+        }
+        .log-info { color: #007bff; }
+        .log-action { color: #5aa5ff; font-weight: bold; }
+        .log-success { color: #28a745; }
+        .log-error { color: #dc3545; font-weight: bold; }
+        .log-exit { color: #6c757d; }
+        #backend-output p { margin: 2px 0; }
+        
+        /* Ek Tag Stili */
+        .tag.strategy { background-color: #4caf50; }
+        .tag.decorated { background-color: #ff9800; }
+        
+        /* Düşük Stok Uyarısı */
+        .stock.low {
+            font-weight: bold;
+            color: #f44336; 
+            animation: blink 1s step-start infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,225 @@
+/* style.css */
+
+/* === TEMEL SIFIRLAMA VE FONTLAR === */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    display: flex;
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+header {
+    background-color: #007bff; /* Mavi ton */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0 0 5px;
+}
+
+header p {
+    margin: 0;
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+/* === MENÜ (ASIDE) STİLLERİ === */
+.menu {
+    flex: 0 0 280px; /* Sabit genişlik */
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    margin-right: 20px;
+    height: fit-content;
+}
+
+.menu h2 {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+.menu button {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    background-color: #e9f2ff;
+    color: #007bff;
+    border: 1px solid #cce0ff;
+    border-radius: 5px;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    font-weight: bold;
+}
+
+.menu button:hover {
+    background-color: #d0e3ff;
+    transform: translateY(-1px);
+}
+
+.explanation {
+    font-size: 0.8em;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+/* === KATALOG (MAIN) STİLLERİ === */
+.catalog {
+    flex-grow: 1;
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.catalog h2 {
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+.last-update {
+    font-size: 0.85em;
+    color: #999;
+    margin-bottom: 20px;
+}
+
+/* Kategori ve Ürün Listesi Stilleri (Composite Görünümü) */
+#category-tree {
+    padding-left: 0;
+}
+
+.category, .subcategory {
+    margin-bottom: 30px;
+    border-left: 4px solid #007bff;
+    padding-left: 15px;
+}
+
+.category h3 {
+    color: #007bff;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.4em;
+}
+
+.subcategory {
+    border-left: 2px solid #5aa5ff; /* Alt kategori için daha açık renk */
+    margin-top: 15px;
+    padding-left: 10px;
+}
+
+.subcategory h4 {
+    color: #5aa5ff;
+    font-size: 1.1em;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.product-list {
+    list-style: none;
+    padding: 0;
+}
+
+.product {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px dashed #eee;
+    font-size: 0.95em;
+}
+
+.product:last-child {
+    border-bottom: none;
+}
+
+.product strong {
+    flex: 2;
+    color: #333;
+}
+
+.tag {
+    font-size: 0.75em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-right: 10px;
+    font-weight: 600;
+    color: white;
+}
+
+.decorated {
+    background-color: #ff9800; /* Decorator turuncu */
+}
+
+.strategy {
+    background-color: #4caf50; /* Strategy yeşil */
+}
+
+.price {
+    flex: 1;
+    text-align: right;
+    font-weight: bold;
+    color: #e91e63; /* Pembe fiyat */
+}
+
+.stock {
+    flex: 1;
+    text-align: right;
+    color: #666;
+}
+
+.stock.low {
+    font-weight: bold;
+    color: #f44336; /* Düşük stok kırmızı */
+}
+
+/* === FOOTER === */
+footer {
+    text-align: center;
+    padding: 15px;
+    margin-top: 30px;
+    font-size: 0.8em;
+    color: #777;
+    border-top: 1px solid #eee;
+}
+
+/* === RESPONSIVE DÜZENLEME === */
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .menu {
+        margin-right: 0;
+        margin-bottom: 20px;
+        flex: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .product {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .price, .stock {
+        text-align: left;
+        margin-top: 5px;
+    }
+}
