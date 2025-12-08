@@ -1,240 +1,767 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Inventory Management System (SPA Simulation)</title>
-    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="style.css" />
     <style>
-        /* CSS Modal structure for the SPA simulation (kept simple) */
-        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.7); padding-top: 60px;}
-        .modal-content { background-color: #fefefe; margin: 5% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 500px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); animation-name: animatetop; animation-duration: 0.4s;}
-        .modal-content label { display: block; margin-top: 10px; font-weight: 600;}
-        .modal-content input[type="text"], .modal-content input[type="number"] { width: 95%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px;}
-        .modal-content button { margin-top: 20px; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;}
-        .modal-content .close-btn { color: #aaa; float: right; font-size: 28px; font-weight: bold;}
-        .modal-content .close-btn:hover, .modal-content .close-btn:focus { color: #000; text-decoration: none; cursor: pointer;}
-        @keyframes animatetop { from {top: -300px; opacity: 0} to {top: 0; opacity: 1} }
+      /* Style Block (Same as previous, for completeness) */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 100;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.7);
+        padding-top: 60px;
+      }
+      .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        animation-name: animatetop;
+        animation-duration: 0.4s;
+      }
+      .modal-content label {
+        display: block;
+        margin-top: 10px;
+        font-weight: 600;
+      }
+      .modal-content input[type="text"],
+      .modal-content input[type="number"] {
+        width: 95%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .modal-content button {
+        margin-top: 20px;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      .modal-content .close-btn {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .modal-content .close-btn:hover,
+      .modal-content .close-btn:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      @keyframes animatetop {
+        from {
+          top: -300px;
+          opacity: 0;
+        }
+        to {
+          top: 0;
+          opacity: 1;
+        }
+      }
+      /* Style for the product list on the delete page */
+      .delete-list {
+        list-style: none;
+        padding: 0;
+      }
+      .delete-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+      }
+      .delete-list button {
+        background-color: #dc3545;
+        color: white;
+        border-radius: 4px;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+      .delete-list span {
+        flex-basis: 30%;
+      }
+      .delete-list strong {
+        flex-basis: 40%;
+      }
+      /* Pattern Context Style */
+      .pattern-context {
+        border-left: 5px solid #28a745;
+        padding: 10px;
+        margin-bottom: 20px;
+        background-color: #f0fff0;
+      }
+      .pattern-context strong {
+        color: #28a745;
+      }
     </style>
-</head>
-<body onload="loadPage('home')"> 
+  </head>
+  <body onload="loadPage('home')">
     <header>
-        <h1>✨ Inventory Management System (SPA Simulation) ✨</h1>
-        <p>Developed with Design Patterns</p>
+      <h1>Inventory Management System (SPA Simulation)</h1>
+      <p>Developed with Design Patterns</p>
     </header>
 
     <div class="container">
-        
-        <aside class="menu">
-            <h2>⚙️ Operation Menu</h2>
-            <p class="explanation">Your selections simulate Backend (Java Console) operations. Logs are below.</p>
-            <div id="backend-output">
-                <p class="info-message">System Ready. Please select an operation.</p>
-            </div>
-            
-            <button onclick="loadPage('add_category')">1. Add New Category</button>
-            <button onclick="loadPage('add_product')">2. Add New Product (Builder)</button>
-            <button onclick="loadPage('update_product')">3. Update Product/Stock/Price</button>
-            <button onclick="loadPage('home')">4. View Full Catalog</button>
-            <button onclick="loadPage('settings')">5. Settings (Strategy/Singleton)</button>
-            <button onclick="handleSimpleAction(7, 'Delete Product')">7. Delete Product</button>
-            <button onclick="handleSimpleAction(8, 'Delete Category')">8. Delete Category</button>
-            <button onclick="handleSimpleAction(9, 'Exit')">9. Exit</button>
-        </aside>
+      <aside class="menu">
+        <h2>⚙️ Operation Menu</h2>
+        <p class="explanation">
+          Your selections simulate Backend (Java Console) operations. Logs are
+          below.
+        </p>
+        <div id="backend-output">
+          <p class="info-message">System Ready. Please select an operation.</p>
+        </div>
 
-        <main class="catalog" id="content-container">
-            <p>Page loading...</p>
-        </main>
+        <button onclick="loadPage('add_category')">1. Add New Category</button>
+        <button onclick="loadPage('add_product')">
+          2. Add New Product (Builder)
+        </button>
+        <button onclick="loadPage('update_product_select')">
+          3. Update Product/Stock/Price
+        </button>
+        <button onclick="loadPage('home')">4. View Full Catalog</button>
+        <button onclick="loadPage('settings')">
+          5. Settings (Strategy/Singleton)
+        </button>
+        <button onclick="loadPage('delete_product')">7. Delete Product</button>
+        <button onclick="loadPage('delete_category')">
+          8. Delete Category
+        </button>
+        <button onclick="handleSimpleAction(9, 'Exit')">9. Exit</button>
+      </aside>
+
+      <main class="catalog" id="content-container">
+        <p>Page loading...</p>
+      </main>
     </div>
 
     <footer>
-        <p>&copy; 2024 Design Patterns Project | 6 Patterns Integrated.</p>
+      <p>&copy; 2024 Design Patterns Project | 6 Patterns Integrated.</p>
     </footer>
 
     <script>
-        // --- GLOBAL STATE ---
-        const output = document.getElementById('backend-output');
-        let stockThreshold = 5; // Singleton state simulation
+      // --- CORE UTILITIES MUST BE DEFINED FIRST ---
+      const output = document.getElementById("backend-output");
 
-        // --- GLOBAL UTILITIES ---
-        function log(message, type = 'info') {
-            const p = document.createElement('p');
-            p.className = `log-${type}`;
-            p.innerHTML = `${new Date().toLocaleTimeString()} &gt; ${message}`;
-            output.prepend(p);
+      // LOG FUNCTION (Defined high up for early error logging)
+      function log(message, type = "info") {
+        const p = document.createElement("p");
+        p.className = `log-${type}`;
+        p.innerHTML = `${new Date().toLocaleTimeString()} &gt; ${message}`;
+        output.prepend(p);
+      }
+
+      // --- GLOBAL STATE ---
+      let stockThreshold = 5;
+      let nextProductId = 6;
+
+      const DEFAULT_STATE = {
+        ELECTRONICS: {
+          COMPUTERS: {
+            LAPTOPS: [
+              {
+                id: 1,
+                name: "Gamer Pro X (i9/32GB)",
+                basePrice: 1499.99,
+                finalPrice: 1199.99,
+                stock: 4,
+                isDecorated: true,
+                categoryPath: "ELECTRONICS.COMPUTERS.LAPTOPS",
+              },
+              {
+                id: 2,
+                name: "Business Ultra",
+                basePrice: 999.99,
+                finalPrice: 999.99,
+                stock: 8,
+                isDecorated: false,
+                categoryPath: "ELECTRONICS.COMPUTERS.LAPTOPS",
+              },
+            ],
+            DESKTOPS: [],
+          },
+          PHONES: [
+            {
+              id: 3,
+              name: "Smartphone",
+              basePrice: 799.99,
+              finalPrice: 879.99,
+              stock: 15,
+              isDecorated: true,
+              categoryPath: "ELECTRONICS.PHONES",
+            },
+            {
+              id: 4,
+              name: "Basic Phone",
+              basePrice: 99.99,
+              finalPrice: 99.99,
+              stock: 20,
+              isDecorated: false,
+              categoryPath: "ELECTRONICS.PHONES",
+            },
+          ],
+        },
+        CLOTHING: [
+          {
+            id: 5,
+            name: "T-Shirt",
+            basePrice: 29.99,
+            finalPrice: 29.99,
+            stock: 50,
+            isDecorated: false,
+            categoryPath: "CLOTHING",
+          },
+        ],
+      };
+
+      let inventoryState = {};
+
+      // --- PERSISTENCE FUNCTIONS ---
+      function saveState() {
+        try {
+          localStorage.setItem(
+            "inventoryState",
+            JSON.stringify(inventoryState)
+          );
+          localStorage.setItem("stockThreshold", stockThreshold);
+          localStorage.setItem("nextProductId", nextProductId);
+        } catch (e) {
+          console.error("Error saving state to localStorage:", e);
         }
-        
-        // --- SPA ROUTER ---
-        function loadPage(pageName) {
-            const container = document.getElementById('content-container');
-            container.innerHTML = '<h2>Loading Page...</h2>'; 
+      }
 
-            fetch(`pages/${pageName}.html`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Page not found: ' + response.statusText);
-                    }
-                    return response.text();
-                })
-                .then(html => {
-                    container.innerHTML = html;
-                    log(`🖼️ Page loaded: ${pageName}`, 'info');
-                    
-                    if (pageName === 'home') {
-                        updateHomeCatalog();
-                    } 
-                    if (pageName === 'settings') {
-                        // Ensure Singleton display is correct when settings page loads
-                        document.getElementById('current-threshold-settings').innerText = stockThreshold;
-                    }
+      function loadPersistentState() {
+        try {
+          const storedState = localStorage.getItem("inventoryState");
+          const storedThreshold = localStorage.getItem("stockThreshold");
+          const storedNextId = localStorage.getItem("nextProductId");
 
-                })
-                .catch(error => {
-                    container.innerHTML = `<h2 style="color:red;">Error: ${error.message}</h2>`;
-                    log(`❌ Page Load Error: ${error.message}`, 'error');
-                });
+          if (storedState) {
+            inventoryState = JSON.parse(storedState);
+            stockThreshold = storedThreshold ? parseInt(storedThreshold) : 5;
+            nextProductId = storedNextId ? parseInt(storedNextId) : 6;
+            log("💾 State loaded successfully from LocalStorage.", "success");
+          } else {
+            inventoryState = JSON.parse(JSON.stringify(DEFAULT_STATE));
+            log("💾 Loaded default initial state.", "info");
+          }
+        } catch (e) {
+          console.error("Error loading state from localStorage:", e);
+          inventoryState = JSON.parse(JSON.stringify(DEFAULT_STATE));
         }
-        
-        function handleSimpleAction(choice, actionName) {
-            log(`➡️ Selected Operation: ${actionName}`, 'action');
-            if (choice === 9) {
-                log('System shutting down. Goodbye! 👋', 'exit');
-            } else if (choice === 7 || choice === 8) {
-                const path = prompt(`[${actionName}] Please enter the path of the item to delete:`);
-                if(path) log(`🗑️ Delete request sent for: ${path}`, 'error');
+      }
+
+      loadPersistentState();
+
+      // --- CORE HELPER FUNCTIONS (NOW DEFINED HERE) ---
+
+      function getAllProducts() {
+        const products = [];
+
+        // Hiyerarşiyi gezen iç fonksiyon
+        function traverse(obj) {
+          if (Array.isArray(obj)) {
+            // Eğer bir ürün dizisi bulursak, elemanlarını ana diziye ekle
+            products.push(...obj);
+          }
+          // Eğer bir obje bulursak (ve null değilse), içindeki anahtarları gez
+          else if (typeof obj === "object" && obj !== null) {
+            for (const key in obj) {
+              traverse(obj[key]);
             }
+          }
         }
-        
-        function updateHomeCatalog() {
-            // Updates the Singleton threshold displayed on the home page
-            const thresholdElement = document.getElementById('current-threshold-home');
-            if (thresholdElement) {
-                thresholdElement.innerText = stockThreshold;
-            }
-            log('✅ Catalog data listed with current settings.', 'success');
+        traverse(inventoryState); // Ana state objesinden başla
+        return products;
+      }
+
+      function findProductById(id) {
+        const allProducts = getAllProducts();
+        // find() methodu, dizideki elemanları döner ve ilk eşleşeni döndürür.
+        // Ancak gelen ID, butondan string olarak gelebilir, bu yüzden karşılaştırma yapmadan önce onu da number'a çevirelim.
+        const targetId = parseInt(id);
+
+        return allProducts.find((p) => p.id === targetId);
+      }
+
+      // --- SPA ROUTER ---
+      function loadPage(pageName) {
+        const container = document.getElementById("content-container");
+        container.innerHTML = "<h2>Loading Page...</h2>";
+
+        // 1. Determine the actual file name to fetch (strip the ID if present)
+        let fileName = pageName;
+        if (pageName.startsWith("update_product_form")) {
+          // If the name is like 'update_product_form-7', fetch only 'update_product_form.html'
+          fileName = "update_product_form";
         }
 
-        // --- ALL SIMULATION FUNCTIONS (GLOBAL SCOPE FIX) ---
+        // 2. Fetch the base HTML file using the cleaned fileName
+        fetch(`pages/${fileName}.html`)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Page not found: " + response.statusText);
+            }
+            return response.text();
+          })
+          .then((html) => {
+            container.innerHTML = html;
+            log(`🖼️ Page loaded: ${pageName}`, "info");
 
-        // 1. Category Addition (simulateAddCategory)
-        function simulateAddCategory() {
-            const name = document.getElementById('cat-name').value;
-            const path = document.getElementById('cat-path').value;
-            
-            if (!name) {
-                log('❌ Error: Category name cannot be empty.', 'error');
-                return;
+            // 3. Process the page logic using the ORIGINAL pageName (which contains the ID)
+            if (pageName === "home") {
+              renderCatalog();
+            }
+            if (pageName === "settings") {
+              document.getElementById("current-threshold-settings").innerText =
+                stockThreshold;
+            }
+            if (pageName === "delete_product") {
+              renderDeleteList();
+            }
+            if (pageName === "delete_category") {
+              renderDeleteCategoryList();
+            }
+            if (pageName === "update_product_select") {
+              renderUpdateSelectList();
             }
 
-            log(`➡️ 1. Add New Category selected.`, 'action');
-            log(`⚙️ Sending to Backend: Name: ${name}, Path: ${path || 'Main Category'}`, 'info');
-            log(`✅ Category "${name}" successfully added (Simulated).`, 'success');
-            loadPage('home'); 
+            if (pageName.startsWith("update_product_form")) {
+              const id = parseInt(pageName.split("-").pop());
+              const targetProduct = findProductById(id);
+              if (targetProduct) {
+                document.getElementById(
+                  "target-product-name"
+                ).innerText = `${targetProduct.name}`;
+                document.getElementById("stock-threshold-display").innerText =
+                  stockThreshold;
+                document.getElementById("product-id-hidden").value = id;
+              }
+            }
+          })
+          .catch((error) => {
+            container.innerHTML = `<h2 style="color:red;">Error: ${error.message}</h2>`;
+            log(
+              `❌ Page Loading Error: Failed to fetch (${error.message})`,
+              "error"
+            );
+          });
+      }
+
+      function handleSimpleAction(choice, actionName) {
+        log(`➡️ Selected Operation: ${actionName}`, "action");
+        if (choice === 9) {
+          log(
+            "System shutting down. Goodbye! (Refresh browser to reset state) 👋",
+            "exit"
+          );
         }
+      }
 
-        // 2. Product Addition (simulateAddProduct)
-        function simulateAddProduct() {
-            const name = document.getElementById('prod-name').value;
-            const price = document.getElementById('prod-price').value;
-            const stock = document.getElementById('prod-stock').value;
-            const cpu = document.getElementById('prod-cpu').value;
+      // --- RENDERING FUNCTIONS ---
 
-            if (!name || !price || !stock) {
-                log('❌ Error: Product information is missing.', 'error');
-                return;
-            }
-
-            log(`➡️ 2. Add New Product selected.`, 'action');
-            
-            if (cpu) {
-                log(`🔧 Builder is creating Complex Product (CPU/RAM). Price increased by 15%.`, 'success');
-                log(`✅ Product "${name} (${cpu})" successfully added (Builder Simulation).`, 'success');
-            } else {
-                log(`🏭 Factory/Simple Product created.`, 'info');
-                log(`✅ Product "${name}" successfully added.`, 'success');
-            }
-            
-            loadPage('home'); 
+      function renderProductList(products) {
+        if (!Array.isArray(products) || products.length === 0) {
+          return "";
         }
-        
-        // 3. Product Update / Decorator / Observer (simulatePriceAction)
-        function simulatePriceAction(pattern) {
-            const path = document.getElementById('update-path').value;
-            if (!path) {
-                log('❌ Error: Product path is required.', 'error');
-                return;
-            }
+        let listHTML = '<ul class="product-list">';
+        products.forEach((prod) => {
+          const tag = prod.isDecorated ? "DECORATED" : "NORMAL PRICING";
+          const stockClass =
+            prod.stock <= stockThreshold ? "stock low" : "stock";
 
-            log(`➡️ 3. Product Update selected.`, 'action');
+          listHTML += `
+                    <li class="product">
+                        <strong>${prod.name}</strong> 
+                        <span class="tag decorated">${tag}</span>
+                        <span class="price">$${prod.finalPrice.toFixed(
+                          2
+                        )}</span>
+                        <span class="${stockClass}" data-stock="${
+            prod.stock
+          }">Stock: ${prod.stock}</span>
+                    </li>
+                `;
+        });
+        listHTML += "</ul>";
+        return listHTML;
+      }
 
-            if (pattern === 'Decorator') {
-                log(`🎁 Decorator (Discount) applied. Price change visible in console.`, 'success');
-            } else if (pattern === 'Observer') {
-                const newStockStr = prompt('Enter new stock quantity:');
-                const newStock = parseInt(newStockStr);
-                
-                if (isNaN(newStock)) {
-                    log('❌ Error: Please enter a valid stock value.', 'error');
-                    return;
+      function renderCatalog() {
+        const container = document.getElementById("content-container");
+        let catalogHTML = `
+                <div class="pattern-context">
+                    <strong>Pattern: Composite (Structural)</strong>
+                    <p>The catalog structure below is dynamically generated from the JavaScript state, demonstrating how the Composite pattern builds a hierarchical tree of Categories (Composite Nodes) and Products (Leaf Nodes).</p>
+                </div>
+                <h2>📦 Product Catalog (Composite Hierarchy)</h2>
+                <p class="last-update">Singleton Threshold: <strong id="current-threshold-home">${stockThreshold}</strong> | Data Managed by State (LocalStorage).</p>
+                <div id="category-tree">
+            `;
+
+        for (const catName in inventoryState) {
+          const categoryData = inventoryState[catName];
+
+          catalogHTML += `<section class="category" style="margin-top: 20px; border-left-color: ${
+            catName === "ELECTRONICS" ? "#007bff" : "#f0ad4e"
+          };">
+                                    <h3 style="color:${
+                                      catName === "ELECTRONICS"
+                                        ? "#007bff"
+                                        : "#f0ad4e"
+                                    };">+ ${catName}</h3>`;
+
+          if (
+            typeof categoryData === "object" &&
+            !Array.isArray(categoryData)
+          ) {
+            for (const subCatName in categoryData) {
+              const subCategoryData = categoryData[subCatName];
+
+              catalogHTML += `<div class="subcategory">
+                                            <h4 style="color:#5aa5ff;">+ ${subCatName}</h4>`;
+
+              if (
+                typeof subCategoryData === "object" &&
+                !Array.isArray(subCategoryData)
+              ) {
+                for (const productKey in subCategoryData) {
+                  const productList = subCategoryData[productKey];
+
+                  catalogHTML += `<div class="sub-subcategory">
+                                                    <h5 style="color:#777;">+ ${productKey}</h5>
+                                                    ${renderProductList(
+                                                      productList
+                                                    )}
+                                                </div>`;
                 }
-                
-                log('📋 Observer triggering...', 'info');
-                log(`📋 STOCK UPDATE: Old stock -> ${newStock}`, 'info');
-                if (newStock <= stockThreshold) {
-                    log(`⚠️ LOW STOCK ALERT: Stock fell below threshold (${stockThreshold})!`, 'error');
-                }
+              } else {
+                catalogHTML += renderProductList(subCategoryData);
+              }
+
+              catalogHTML += `</div>`;
             }
+          } else if (Array.isArray(categoryData)) {
+            catalogHTML += renderProductList(categoryData);
+          }
+          catalogHTML += `</section>`;
         }
-        
-        // 5. Singleton Threshold Update (simulateUpdateThreshold)
-        function simulateUpdateThreshold() {
-            const newThreshold = parseInt(document.getElementById('new-threshold').value);
-            
-            if (isNaN(newThreshold) || newThreshold < 0) {
-                log('❌ Error: Please enter a valid stock threshold.', 'error');
-                return;
-            }
-            
-            stockThreshold = newThreshold; // Update global state
-            log(`➡️ Singleton updated. New Threshold: ${newThreshold}`, 'success');
-            
-            const settingsThresholdElement = document.getElementById('current-threshold-settings');
-            if(settingsThresholdElement) {
-                settingsThresholdElement.innerText = newThreshold;
-            }
+        catalogHTML += `</div>`;
+        container.innerHTML = catalogHTML;
+        log("✅ Catalog dynamically rebuilt from State.", "success");
+      }
+
+      function renderDeleteList() {
+        const listContainer = document.getElementById("delete-product-list");
+        const allProducts = getAllProducts();
+        if (!listContainer) return;
+
+        let listHTML = "";
+        if (allProducts.length === 0) {
+          listHTML = "<p>No products available in the inventory.</p>";
+        } else {
+          allProducts.forEach((prod) => {
+            listHTML += `
+                         <li id="prod-${prod.id}">
+                            <span>ID: ${prod.id}</span>
+                            <strong>${prod.name}</strong> 
+                            <span>Category: ${prod.categoryPath
+                              .split(".")
+                              .pop()}</span>
+                            <button onclick="simulateDeleteProduct(${
+                              prod.id
+                            }, '${prod.name}')">DELETE</button>
+                         </li>
+                     `;
+          });
+          listHTML = `<ul class="delete-list">${listHTML}</ul>`;
         }
-        
-        // 5. Strategy Application (simulateStrategy)
-        function simulateStrategy(type) {
-            const path = document.getElementById('strategy-path').value;
-            if (!path) {
-                log('❌ Error: Category path is required.', 'error');
-                return;
+        listContainer.innerHTML = listHTML;
+      }
+
+      function renderDeleteCategoryList() {
+        const listContainer = document.getElementById("delete-category-list");
+        if (!listContainer) return;
+
+        let listHTML = "";
+        for (const catName in inventoryState) {
+          const status =
+            typeof inventoryState[catName] === "object" &&
+            !Array.isArray(inventoryState[catName])
+              ? "Multi-Level Object"
+              : "Products Array";
+          listHTML += `
+                    <li>
+                        <strong>${catName}</strong> 
+                        <span>Status: ${status}</span>
+                        <button onclick="simulateDeleteCategory('${catName}')">DELETE</button>
+                    </li>
+                `;
+        }
+        listContainer.innerHTML = `<ul class="delete-list">${listHTML}</ul>`;
+      }
+
+      function renderUpdateSelectList() {
+        const listContainer = document.getElementById(
+          "update-product-select-list"
+        );
+        const allProducts = getAllProducts();
+
+        if (!listContainer) return;
+
+        let listHTML = "";
+        allProducts.forEach((prod) => {
+          listHTML += `
+                     <li>
+                        <strong>${prod.name}</strong> 
+                        <span>Category: ${prod.categoryPath
+                          .split(".")
+                          .pop()}</span>
+                        <button onclick="loadPage('update_product_form-${
+                          prod.id
+                        }')">Select</button>
+                     </li>
+                 `;
+        });
+        listContainer.innerHTML = `<ul class="delete-list">${listHTML}</ul>`;
+      }
+
+      // --- SIMULATION FUNCTIONS (STATE CHANGERS) ---
+
+      function simulateDeleteProduct(id, name) {
+        let found = false;
+        function deleteFromList(obj) {
+          if (Array.isArray(obj)) {
+            const initialLength = obj.length;
+            const filtered = obj.filter((prod) => prod.id !== id);
+            if (filtered.length < initialLength) {
+              obj.splice(0, initialLength, ...filtered);
+              found = true;
             }
-            
-            log(`➡️ Strategy Pattern applied.`, 'action');
-            log(`🌐 ${type === 'TaxIncluded' ? 'Tax Included' : 'Normal'} strategy applied to category path ${path}.`, 'success');
-            loadPage('home'); 
+          } else if (typeof obj === "object") {
+            for (const key in obj) {
+              deleteFromList(obj[key]);
+              if (found) return;
+            }
+          }
         }
 
-        // --- MAKE GLOBAL/WINDOW LEVEL (FIX FOR MODULAR HTML) ---
-        // These are necessary for the HTML loaded via fetch to find the functions
-        window.log = log; 
-        window.loadPage = loadPage;
-        window.stockThreshold = stockThreshold; 
-        window.simulateAddCategory = simulateAddCategory;
-        window.simulateAddProduct = simulateAddProduct;
-        window.simulateUpdateThreshold = simulateUpdateThreshold;
-        window.simulateStrategy = simulateStrategy;
-        window.simulatePriceAction = simulatePriceAction;
-        window.updateHomeCatalog = updateHomeCatalog;
-        
-        // Modal close listener
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
-            }
+        deleteFromList(inventoryState);
+
+        if (found) {
+          saveState();
+          log(
+            `✅ Product "${name}" (ID: ${id}) deleted from state.`,
+            "success"
+          );
+        } else {
+          log(`❌ Error: Product ${name} not found.`, "error");
         }
+        loadPage("delete_product");
+      }
+
+      function simulateDeleteCategory(name) {
+        if (
+          confirm(
+            `Are you sure you want to delete the category: ${name}? This will delete all contained products/subcategories in the simulation.`
+          )
+        ) {
+          delete inventoryState[name];
+          saveState();
+          log(`🗑️ Category "${name}" deleted from state.`, "success");
+          loadPage("delete_category");
+        }
+      }
+
+      function simulateAddCategory() {
+        const name = document
+          .getElementById("cat-name")
+          .value.toUpperCase()
+          .trim();
+        if (!name) {
+          log("❌ Error: Category name cannot be empty.", "error");
+          return;
+        }
+        if (inventoryState[name]) {
+          log("❌ Error: Category already exists in the state.", "error");
+          return;
+        }
+
+        inventoryState[name] = [];
+        saveState();
+        log(`✅ Category "${name}" successfully added to state.`, "success");
+        loadPage("home");
+      }
+
+      function simulateAddProduct() {
+        const name = document.getElementById("prod-name").value.trim();
+        const price = parseFloat(document.getElementById("prod-price").value);
+        const stock = parseInt(document.getElementById("prod-stock").value);
+        const targetCat = document
+          .getElementById("prod-path")
+          .value.trim()
+          .toUpperCase();
+        const cpu = document.getElementById("prod-cpu").value.trim();
+
+        if (!name || isNaN(price) || isNaN(stock) || !targetCat) {
+          log(
+            "❌ Error: Product information or category path is missing/invalid.",
+            "error"
+          );
+          return;
+        }
+
+        let finalPrice = price;
+        if (cpu) {
+          finalPrice = price * 1.15;
+          log(
+            `🔧 Builder is creating Complex Product (${cpu}). Price increased by 15%.`,
+            "success"
+          );
+        } else {
+          log(`🏭 Factory/Simple Product created.`, "info");
+        }
+
+        const newProduct = {
+          id: nextProductId++,
+          name: name + (cpu ? ` (${cpu})` : ""),
+          basePrice: price,
+          finalPrice: finalPrice,
+          stock: stock,
+          isDecorated: !!cpu,
+          categoryPath: targetCat,
+        };
+        let targetCategory = inventoryState[targetCat];
+
+        if (Array.isArray(targetCategory)) {
+          targetCategory.push(newProduct);
+          saveState();
+          log(
+            `✅ Product "${name}" successfully added to category: ${targetCat}.`,
+            "success"
+          );
+        } else {
+          log(
+            `❌ Error: Category "${targetCat}" not found or is multi-level. Please use a top-level array category (e.g., CLOTHING).`,
+            "error"
+          );
+          return;
+        }
+        loadPage("home");
+      }
+
+      function simulateUpdateProduct(id, pattern) {
+        const targetProduct = findProductById(id);
+
+        if (!targetProduct) {
+          log("❌ Error: Target product not found.", "error");
+          return;
+        }
+
+        if (pattern === "Decorator") {
+          targetProduct.finalPrice = targetProduct.basePrice * 0.8;
+          targetProduct.isDecorated = true;
+          log(
+            `🎁 Decorator (Discount) applied to ${
+              targetProduct.name
+            }. New Price: $${targetProduct.finalPrice.toFixed(2)}`,
+            "success"
+          );
+        } else if (pattern === "Observer") {
+          const newStockStr = prompt(
+            `Enter new stock quantity for ${targetProduct.name} (Current: ${targetProduct.stock}):`
+          );
+          const newStock = parseInt(newStockStr);
+          if (isNaN(newStock)) {
+            log("❌ Error: Please enter a valid stock value.", "error");
+            return;
+          }
+          targetProduct.stock = newStock;
+          if (newStock <= stockThreshold) {
+            log(
+              `⚠️ LOW STOCK ALERT: Stock fell below threshold (${stockThreshold})!`,
+              "error"
+            );
+          }
+        }
+        saveState();
+        loadPage("home");
+      }
+
+      function simulateUpdateThreshold() {
+        const newThreshold = parseInt(
+          document.getElementById("new-threshold").value
+        );
+        if (isNaN(newThreshold) || newThreshold < 0) {
+          log("❌ Error: Please enter a valid stock threshold.", "error");
+          return;
+        }
+        stockThreshold = newThreshold;
+        saveState();
+        loadPage("home");
+      }
+
+      function simulateStrategy(type) {
+        const taxRate = 1.18;
+        const traverseState = (obj) => {
+          for (const key in obj) {
+            if (Array.isArray(obj[key])) {
+              obj[key].forEach((prod) => {
+                if (type === "TaxIncluded") {
+                  prod.finalPrice = prod.basePrice * taxRate;
+                } else {
+                  prod.finalPrice = prod.basePrice;
+                }
+              });
+            } else if (typeof obj[key] === "object") {
+              traverseState(obj[key]);
+            }
+          }
+        };
+        traverseState(inventoryState);
+        saveState();
+        loadPage("home");
+      }
+
+      // --- EXPORT TO WINDOW (GLOBAL ACCESS) ---
+      window.log = log;
+      window.loadPage = loadPage;
+      window.stockThreshold = stockThreshold;
+      window.inventoryState = inventoryState;
+      window.simulateAddCategory = simulateAddCategory;
+      window.simulateAddProduct = simulateAddProduct;
+      window.simulateUpdateThreshold = simulateUpdateThreshold; // THIS is the correct function
+      window.simulateStrategy = simulateStrategy;
+      window.renderCatalog = renderCatalog;
+      window.simulateDeleteProduct = simulateDeleteProduct;
+      window.renderDeleteList = renderDeleteList;
+      window.renderDeleteCategoryList = renderDeleteCategoryList;
+      window.renderUpdateSelectList = renderUpdateSelectList;
+      window.simulateDeleteCategory = simulateDeleteCategory;
+      window.findProductById = findProductById;
+      window.getAllProducts = getAllProducts;
+
+      window.onclick = function (event) {
+        if (event.target.classList.contains("modal")) {
+          event.target.style.display = "none";
+        }
+      };
     </script>
-</body>
+  </body>
 </html>

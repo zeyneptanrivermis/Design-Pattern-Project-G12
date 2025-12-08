@@ -1,13 +1,21 @@
 <main class="catalog">
-    <h2>3. Product/Stock/Price Update</h2>
-    <p>Select which product to operate on and which pattern to test.</p>
+    <h2>3. Update Product/Stock/Price (Decorator & Observer Simulation)</h2>
+    <p>Bu işlem, Decorator (Fiyatlandırma) ve Observer (Stok Alarmı) desenlerini göstermek için **kodda önceden belirlenmiş bir ürünü** hedef alır.</p>
     
-    <label for="update-path">Product Path (E.g.: 1.1.1.2):</label>
-    <input type="text" id="update-path" placeholder="Select item to modify">
+    <p style="padding: 10px; border: 1px dashed #dc3545; background-color: #ffeaea;">
+        <strong>⚠️ SIMÜLASYON HEDEFİ:</strong> 
+        <span id="target-product-name">LAPTOPS / Gamer Pro X (i9/32GB)</span>
+    </p>
 
-    <div style="margin-top: 30px;">
-        <h3>Price and Stock Operations</h3>
-        <button class="menu-button" onclick="simulatePriceAction('Decorator')" style="background-color: #ffc107;">Apply 20% Discount (Decorator)</button>
-        <button class="menu-button" onclick="simulatePriceAction('Observer')" style="background-color: #17a2b8;">Update Stock (Observer)</button>
-    </div>
+    <h4 style="margin-top: 20px;">1. Decorator Pattern (Fiyat Güncelleme)</h4>
+    <p>Hedef ürünün fiyatına %20 indirim dekoratörü uygular.</p>
+    <button class="menu-button" style="background-color: #007bff; color: white;" onclick="simulatePriceAction('Decorator')">
+        İndirim Dekoratörü Uygula (-20%)
+    </button>
+    
+    <h4 style="margin-top: 20px;">2. Observer Pattern (Stok Güncelleme & Alarm)</h4>
+    <p>Hedef ürünün stok seviyesini günceller. Yeni stok, mevcut Singleton Eşiği (<span id="stock-threshold-display">5</span>) altına düşerse, Log alanına **Low Stock Alert** düşer.</p>
+    <button class="menu-button" style="background-color: #ffc107; color: black;" onclick="simulatePriceAction('Observer')">
+        Stok Güncelle (Yeni Stok İçin Sor)
+    </button>
 </main>

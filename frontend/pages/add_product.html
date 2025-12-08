@@ -1,26 +1,46 @@
 <main class="catalog">
-    <h2>2. Add New Product (Builder/Factory)</h2>
-    <p>Simulate the product creation steps. (Mimics the Builder pattern in the Backend.)</p>
+  <div class="pattern-context">
+    <strong>Pattern: Builder & Factory (Creational)</strong>
+    <p>
+      This simulates constructing a product. Entering a CPU triggers the Complex
+      Product Builder, applying a price markup. Simple products use a basic
+      factory approach.
+    </p>
+  </div>
+  <h2>2. Add New Product (Builder/Factory)</h2>
 
-    <label for="prod-path">Category Path to Add To:</label>
-    <input type="text" id="prod-path" placeholder="E.g., 1.2.1">
+  <label for="prod-path"
+    >Target Category Name (Must be a top-level product array, e.g.,
+    CLOTHING):</label
+  >
+  <input type="text" id="prod-path" placeholder="E.g., CLOTHING" />
 
-    <label for="prod-name">Product Name:</label>
-    <input type="text" id="prod-name" placeholder="E.g., Smart Watch">
-    
-    <label for="prod-price">Base Price ($):</label>
-    <input type="number" id="prod-price" placeholder="199.99">
-    
-    <label for="prod-stock">Stock:</label>
-    <input type="number" id="prod-stock" placeholder="25">
-    
-    <div style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 10px;">
-        <h4>Builder Features (Optional)</h4>
-        <label for="prod-cpu">CPU (For Complex Products Only):</label>
-        <input type="text" id="prod-cpu" placeholder="E.g., i7 (Triggers Builder)">
-        <label for="prod-ram">RAM (GB):</label>
-        <input type="number" id="prod-ram" placeholder="16">
-    </div>
-    
-    <button class="menu-button" style="background-color: #28a745; color: white;" onclick="simulateAddProduct()">Add Product (Simulate)</button>
+  <label for="prod-name">Product Name:</label>
+  <input type="text" id="prod-name" placeholder="E.g., Smart Watch" />
+
+  <label for="prod-price">Base Price ($):</label>
+  <input type="number" id="prod-price" placeholder="199.99" />
+
+  <label for="prod-stock">Stock:</label>
+  <input type="number" id="prod-stock" placeholder="25" />
+
+  <div style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 10px">
+    <h4>Builder Features (Optional)</h4>
+    <label for="prod-cpu">CPU (For Complex Products Only):</label>
+    <input
+      type="text"
+      id="prod-cpu"
+      placeholder="E.g., i7 (Triggers Builder)"
+    />
+    <label for="prod-ram">RAM (GB):</label>
+    <input type="number" id="prod-ram" placeholder="16" />
+  </div>
+
+  <button
+    class="menu-button"
+    style="background-color: #28a745; color: white; margin-top: 20px"
+    onclick="simulateAddProduct()"
+  >
+    Add Product (Simulate)
+  </button>
 </main>

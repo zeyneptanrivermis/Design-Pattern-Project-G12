@@ -1,0 +1,53 @@
+<main class="catalog">
+  <div class="pattern-context">
+    <p>
+      <strong>Patterns: Decorator (Structural) & Observer (Behavioral)</strong>
+    </p>
+    <ul>
+      <li>
+        **Decorator:** Simulates applying a price wrapper to dynamically modify
+        the final price.
+      </li>
+      <li>
+        **Observer:** Simulates registering a stock listener which triggers an
+        alert when the stock changes below the Singleton threshold.
+      </li>
+    </ul>
+  </div>
+
+  <h2>3. Update Product/Stock/Price (Modify)</h2>
+
+  <p
+    style="padding: 10px; border: 1px dashed #007bff; background-color: #e6f7ff"
+  >
+    Target Product:
+    <strong><span id="target-product-name">Product Name</span></strong>
+  </p>
+
+  <input type="hidden" id="product-id-hidden" value="" />
+
+  <h4 style="margin-top: 20px">1. Decorator Pattern (Price Modification)</h4>
+  <p>Apply a special discount (20% off) to the target product's base price.</p>
+  <button
+    class="menu-button"
+    style="background-color: #007bff; color: white"
+    onclick="simulateUpdateProduct(document.getElementById('product-id-hidden').value, 'Decorator')"
+  >
+    Apply Discount Decorator (-20%)
+  </button>
+
+  <h4 style="margin-top: 20px">2. Observer Pattern (Stock Update & Alert)</h4>
+  <p>
+    The system checks against the current Singleton Threshold (<span
+      id="stock-threshold-display"
+      >5</span
+    >) after update.
+  </p>
+  <button
+    class="menu-button"
+    style="background-color: #ffc107; color: black"
+    onclick="simulateUpdateProduct(document.getElementById('product-id-hidden').value, 'Observer')"
+  >
+    Update Stock (Prompt for New Stock)
+  </button>
+</main>

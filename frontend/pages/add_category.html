@@ -1,12 +1,31 @@
 <main class="catalog">
-    <h2>1. Add New Category</h2>
-    <p>Please enter the category details. (Simulates Composite structure in the Backend.)</p>
-    
-    <label for="cat-name">Category Name:</label>
-    <input type="text" id="cat-name" placeholder="E.g., Home Appliances">
-    
-    <label for="cat-path">Parent Category Path (E.g., 1.2):</label>
-    <input type="text" id="cat-path" placeholder="Leave empty for Main Category.">
-    
-    <button class="menu-button" style="background-color: #28a745; color: white;" onclick="simulateAddCategory()">Add Category (Simulate)</button>
+  <div class="pattern-context">
+    <strong>Pattern: Composite (Structural)</strong>
+    <p>
+      This operation simulates adding a new node (Category) to the Composite
+      structure. In this simulation, only top-level nodes are supported for safe
+      state management.
+    </p>
+  </div>
+  <h2>1. Add New Category</h2>
+
+  <label for="cat-name">Category Name:</label>
+  <input type="text" id="cat-name" placeholder="E.g., HOME APPLIANCES" />
+
+  <label for="cat-path"
+    >Parent Category (Enter Top-Level name or leave empty):</label
+  >
+  <input
+    type="text"
+    id="cat-path"
+    placeholder="E.g., ROOT (This input is currently ignored to enforce simple Top-Level addition)"
+  />
+
+  <button
+    class="menu-button"
+    style="background-color: #28a745; color: white"
+    onclick="simulateAddCategory()"
+  >
+    Add Category (Simulate)
+  </button>
 </main>

@@ -1,43 +1,19 @@
 <main class="catalog">
-    <h2>📦 Product Catalog (Composite Hierarchy)</h2>
-    <p class="last-update">Singleton Threshold: <strong id="current-threshold-home">5</strong> | Data Simulated from Backend.</p>
+  <div class="pattern-context">
+    <strong>Pattern: Composite (Structural)</strong>
+    <p>
+      The catalog structure below is dynamically generated from the JavaScript
+      state, demonstrating how the Composite pattern builds a hierarchical tree
+      of Categories (Composite Nodes) and Products (Leaf Nodes).
+    </p>
+  </div>
 
-    <div id="category-tree">
-        <section class="category">
-            <h3 style="color:#007bff;">+ ELECTRONICS</h3>
-            
-            <div class="subcategory">
-                <h4 style="color:#5aa5ff;">+ COMPUTERS</h4>
-                <div class="sub-subcategory">
-                    <h5 style="color:#777;">+ LAPTOPS</h5>
-                    <ul class="product-list">
-                        <li class="product">
-                            <strong>Gamer Pro X (i9/32GB)</strong> 
-                            <span class="tag decorated">DECORATOR/DISCOUNT (20%)</span>
-                            <span class="price" data-price="1199.99">$1199.99</span>
-                            <span class="stock low" data-stock="4">Stock: 4 (LOW)</span>
-                        </li>
-                        <li class="product">
-                            <strong>Business Ultra</strong>
-                            <span class="tag strategy">NORMAL PRICING</span>
-                            <span class="price" data-price="999.99">$999.99</span>
-                            <span class="stock" data-stock="8">Stock: 8</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="subcategory">
-                <h4 style="color:#5aa5ff;">+ PHONES</h4>
-                <ul class="product-list">
-                    <li class="product">
-                        <strong>Smartphone</strong>
-                        <span class="tag decorated">DECORATOR/INCREASE (10%)</span>
-                        <span class="price" data-price="879.99">$879.99</span>
-                        <span class="stock" data-stock="15">Stock: 15</span>
-                    </li>
-                </ul>
-            </div>
-        </section>
-    </div>
+  <h2>📦 Product Catalog (Composite Hierarchy)</h2>
+
+  <p class="last-update">
+    Singleton Threshold: <strong id="current-threshold-home">5</strong> | Data
+    Managed by State (LocalStorage).
+  </p>
+
+  <div id="category-tree">Loading Inventory Data...</div>
 </main>
