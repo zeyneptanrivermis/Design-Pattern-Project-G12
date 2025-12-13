@@ -1,31 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Category</title>
+</head>
+<body>
 <main class="catalog">
   <div class="pattern-context">
     <strong>Pattern: Composite (Structural)</strong>
     <p>
       This operation simulates adding a new node (Category) to the Composite
-      structure. In this simulation, only top-level nodes are supported for safe
-      state management.
+      structure. You can now add categories at ANY level in the hierarchy!
     </p>
   </div>
   <h2>1. Add New Category</h2>
 
-  <label for="cat-name">Category Name:</label>
-  <input type="text" id="cat-name" placeholder="E.g., HOME APPLIANCES" />
+  <!-- 🆕 DEBUG BUTONU -->
+  <div style="margin-bottom: 15px; padding: 10px; background-color: #fff3cd; border: 1px solid #ffc107; border-radius: 5px;">
+    <button onclick="window.loadCategoryParentDropdown()" style="background-color: #ff9800; color: white; padding: 8px 15px; border: none; border-radius: 3px; cursor: pointer;">
+      🔧 Load Categories (Manual)
+    </button>
+    <p style="margin-top: 5px; color: #666; font-size: 12px;">
+      Click if dropdown is empty
+    </p>
+  </div>
 
-  <label for="cat-path"
-    >Parent Category (Enter Top-Level name or leave empty):</label
-  >
-  <input
-    type="text"
-    id="cat-path"
-    placeholder="E.g., ROOT (This input is currently ignored to enforce simple Top-Level addition)"
-  />
+  <!-- 🆕 YENİ: Ağaç yapısından kategori seçimi -->
+  <div style="margin-bottom: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 5px;">
+    <h4>📁 Select Parent Category:</h4>
+    
+    <label for="parent-cat-select"><strong>Parent Category:</strong></label>
+    <select id="parent-cat-select" onchange="window.loadCategoryLevels()" style="width: 100%; padding: 8px; margin-bottom: 10px; font-size: 14px;">
+      <option value="">-- Root (Top-Level) --</option>
+    </select>
+
+    <!-- Dynamic level dropdown'lar -->
+    <div id="category-levels-container"></div>
+
+    <!-- Seçilen Yol Gösterimi -->
+    <p style="color: #666; font-weight: bold; margin: 10px 0;">
+      📍 Selected Parent Path: <span id="selected-cat-path" style="color: #0066cc;">Root (Top-Level)</span>
+    </p>
+  </div>
+
+  <!-- Yeni Kategori Bilgileri -->
+  <label for="cat-name"><strong>New Category Name:</strong></label>
+  <input type="text" id="cat-name" placeholder="E.g., White Goods, Gaming, etc." />
+
+  <p style="color: #999; font-size: 12px; margin-top: 5px;">
+    💡 Tip: Leave parent empty for top-level, or select from dropdown for sub-category
+  </p>
 
   <button
     class="menu-button"
-    style="background-color: #28a745; color: white"
-    onclick="simulateAddCategory()"
+    style="background-color: #28a745; color: white; margin-top: 20px; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;"
+    onclick="window.simulateAddCategory()"
   >
-    Add Category (Simulate)
+    ✅ Add Category
   </button>
 </main>
+
+<!-- 🆕 YENİ: Sayfa yüklendiğinde dropdown'u doldur -->
+<script>
+  // 🔧 DÜZELTME: Daha uzun timeout (script'lerin yüklenmesini bekle)
+  setTimeout(function() {
+    console.log('🚀 add_category.html loaded');
+    console.log('📦 inventoryState:', window.inventoryState);
+    console.log('🔍 loadCategoryParentDropdown:', typeof window.loadCategoryParentDropdown);
+    
+    if (typeof window.loadCategoryParentDropdown === 'function') {
+      console.log('✅ Calling loadCategoryParentDropdown()...');
+      window.loadCategoryParentDropdown();
+    } else {
+      console.error('❌ window.loadCategoryParentDropdown not found! Retrying in 500ms...');
+      setTimeout(function() {
+        if (typeof window.loadCategoryParentDropdown === 'function') {
+          window.loadCategoryParentDropdown();
+        }
+      }, 500);
+    }
+  }, 200); // 🔧 Delay eklendi
+</script>
+
+</body>
+</html>

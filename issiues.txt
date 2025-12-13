@@ -1,0 +1,4 @@
+add categoryde category bir ürün listesi mi yoksa parent kategoryimi belirlenemiyor
+update price kısmında istenildiği gibi fiyat girme lazım
+delete categoryde alt kategoriler gözükmüyor.
+delete productta da sıkıntı olabilir
